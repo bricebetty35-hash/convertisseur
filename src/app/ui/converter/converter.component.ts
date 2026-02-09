@@ -16,7 +16,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ConverterComponent {
-    private orchestrator = inject(ConverterOrchestrator);
+    private readonly orchestrator = inject(ConverterOrchestrator);
 
     vm = toSignal(this.orchestrator.getViewModel$());
 
