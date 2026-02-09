@@ -1,0 +1,70 @@
+<nz-card nzTitle="Convertisseur multi-devises">
+
+    @if (vm(); as model) {
+
+    <div class="rate-section">
+        <p>Taux réel : <b>{{ model.realRate }}</b></p>
+        <p>Taux utilisé : <b>{{ model.usedRate }}</b></p>
+        <div class="force-section">
+            <label>Taux fixe :</label>
+            <nz-input-number [ngModel]="model.forcedRate" (ngModelChange)="onForcedRateChange($event)"
+                nzPlaceHolder="Taux fixe" nzSize="large">
+            </nz-input-number>
+        </div>
+    </div>
+
+    <div class="switch-section">
+        <button nz-button nzType="default" (click)="onSwitch()">
+            Inverser ({{ model.base }} → {{ model.quote }})
+        </button>
+    </div>
+
+    <div class="conversion-section">
+        <div class="input-section">
+            <label>Montant</label>
+            <nz-input-number [ngModel]="model.inputAmount" (ngModelChange)="onInputChange($event)" [nzMin]="0"
+                nzSize="large">
+            </nz-input-number>
+            <span class="currency">{{ model.base }}</span>
+        </div>
+
+        <div class="output-section">
+            <label>Résultat</label>
+            <nz-input-number [ngModel]="model.outputAmount" nzDisabled="true" nzSize="large">
+            </nz-input-number>
+            <span class="currency">{{ model.quote }}</span>
+        </div>
+    </div>
+
+    <button nz-button nzType="primary" (click)="onAddHistory()" class="history-button">
+        Ajouter à l’historique
+    </button>
+
+    }
+
+</nz-card>
+
+@if (vm()?.history?.length) {
+<nz-table #historicable [nzData]="vm()!.history" nzBordered nzSize="small">
+    <thead>
+        <tr>
+            <th>Taux réel</th>
+            <th>Taux utilisé</th>
+            <th>Entrée</th>
+            <th>Sortie</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (h of historicable.data; track h.timestamp) {
+        <tr>
+            <td>{{ h.realRate }}</td>
+            <td>{{ h.usedRate }}</td>
+            <td>{{ h.inputAmount }} {{ h.from }}</td>
+            <td>{{ h.outputAmount }} {{ h.to }}</td>
+            <td>{{ h.timestamp | date:'HH:mm:ss' }}</td>
+        </tr>
+        }
+    </tbody>
+</nz-table>
+}
