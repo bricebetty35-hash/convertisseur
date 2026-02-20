@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/tonuser/tonrepo.git'
+                git branch: 'main', url: 'https://github.com/bricebetty35-hash/convertisseur'
             }
         }
 
